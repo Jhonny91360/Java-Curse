@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Mi CV
+    </h1>
+    <p th:text="'Hola, ' + ${name} + '!'  ">
+      Texto por defecto
+    </p>
+
+    <h3 th:text="'Tu profesion, ' + ${person.profession} + '!'  ">
+
+    </h3>
+</body>
+</html>
