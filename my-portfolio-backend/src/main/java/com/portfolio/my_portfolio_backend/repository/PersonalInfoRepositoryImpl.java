@@ -101,10 +101,8 @@ public class PersonalInfoRepositoryImpl implements IPersonalInforRepository {
 
     @Override
     public List<PersonalInfo> findAll() {
-
-        String sql = "Select * From  personal_info";
-
-        return jdbcTemplate.query(sql,personalInfoRowMapper);
+        String sql = "Select * From personal_info";
+        return jdbcTemplate.query(sql, personalInfoRowMapper);
     }
 
     @Override

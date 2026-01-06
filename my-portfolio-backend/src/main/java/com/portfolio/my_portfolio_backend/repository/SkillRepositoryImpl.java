@@ -73,9 +73,8 @@ public class SkillRepositoryImpl implements ISkillRepository{
 
     @Override
     public List<Skill> findAll() {
-        String sql = "Select * From  personal_info";
-
-        return jdbcTemplate.query(sql,skillRowMapper);
+        String sql = "SELECT id, name, level_percentage, icon_class, personal_info_id FROM skills";
+        return jdbcTemplate.query(sql, skillRowMapper);
     }
 
     @Override
