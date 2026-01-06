@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Document</title>
+    <title>Portfolio</title>
 </head>
 <body>
 <header>
@@ -13,9 +13,7 @@
         <div th:insert="fragments/nav :: nav" ></div>
         <div th:insert="sections/personal-info-section :: hero" ></div>
     </div>
-
 </header>
-
 
 <main>
 
@@ -24,6 +22,7 @@
         <div th:insert="sections/education-section :: education" ></div>
         <div th:insert="sections/skills-section :: skills" ></div>
         <div th:insert="sections/experience-section :: experience" ></div>
+        <div th:insert="sections/project-section :: projects" ></div>
 
         <div th:insert="sections/contact-section :: contact" ></div>
     </div>

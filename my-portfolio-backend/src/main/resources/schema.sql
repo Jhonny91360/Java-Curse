@@ -59,11 +59,11 @@ CREATE TABLE experiences (
 );
 
 CREATE TABLE IF NOT EXISTS projects (
-                                        id SERIAL PRIMARY KEY,
-                                        title VARCHAR(255) NOT NULL,
-    description TEXT,
-    image_url VARCHAR(255),
-    project_url VARCHAR(255),
-    personal_info_id INT,
-    FOREIGN KEY (personal_info_id) REFERENCES personal_info(id)
-    );
+                            id SERIAL PRIMARY KEY,
+                            title VARCHAR(255) NOT NULL,
+                            description TEXT,
+                            image_url VARCHAR(255),
+                            project_url VARCHAR(255),
+                            personal_info_id INT,
+                            FOREIGN KEY (personal_info_id) REFERENCES personal_info(id)
+);
