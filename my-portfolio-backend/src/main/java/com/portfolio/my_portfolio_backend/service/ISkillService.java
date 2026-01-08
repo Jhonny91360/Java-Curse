@@ -10,5 +10,5 @@ public interface ISkillService {
     Optional<Skill> findById (Long id);
     List<Skill> findAll();
     void deleteById( Long id);
-    List<Skill> findByPersonalInfoId(Long PersonalInfoId);
+    List<Skill> findSkillsByPersonalInfoId(Long PersonalInfoId);
 }

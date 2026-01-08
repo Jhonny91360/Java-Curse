@@ -10,7 +10,7 @@
 <body>
 <header>
     <div class="container">
-        <div th:insert="fragments/nav :: nav" ></div>
+        <div th:insert="~{fragments/nav :: nav}" ></div>
     </div>
 </header>
 
@@ -24,6 +24,6 @@
     </div>
 </main>
 
-<div th:insert="fragments/footer :: footer" ></div>
+<div th:insert="~{fragments/footer :: footer}" ></div>
 </body>
 </html>

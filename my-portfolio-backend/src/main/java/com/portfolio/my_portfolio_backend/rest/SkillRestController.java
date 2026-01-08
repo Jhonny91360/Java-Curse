@@ -11,7 +11,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/skill")
 @RequiredArgsConstructor
-public class SkillController {
+public class SkillRestController {
     private final ISkillService skillService;
 
     @GetMapping
@@ -25,7 +25,7 @@ public class SkillController {
     }
     @GetMapping("/personal-info/{id}")
     public List<Skill> findSkillsByPersonalInfoId(@PathVariable("id") Long personalInfoId){
-        return skillService.findByPersonalInfoId(personalInfoId);
+        return skillService.findSkillsByPersonalInfoId(personalInfoId);
     }
 
     @PostMapping

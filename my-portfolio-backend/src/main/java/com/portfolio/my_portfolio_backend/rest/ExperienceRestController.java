@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/experience")
-public class ExperienceController {
+public class ExperienceRestController {
 
     private final IExperienceService experienceService;
 
-    public ExperienceController(IExperienceService experienceService) {
+    public ExperienceRestController(IExperienceService experienceService) {
         this.experienceService = experienceService;
     }
 
