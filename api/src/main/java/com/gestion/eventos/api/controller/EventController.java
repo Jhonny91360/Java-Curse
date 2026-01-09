@@ -41,4 +41,30 @@ public class EventController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EventResponseDto> getEventById(@PathVariable Long id){
+        Event event = eventService.findById(id);
+
+        EventResponseDto eventResponseDto = eventMapper.toResponseDto(event);
+
+        //return ResponseEntity.ok(eventResponseDto);  // otra manera
+        return new ResponseEntity<>(eventResponseDto,HttpStatus.FOUND);
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EventResponseDto> updateEvent(@PathVariable Long id ,@Valid @RequestBody EventRequestDto requestDto){
+        Event eventToUpdate = eventService.findById(id);
+        eventMapper.updateEventFromDto(requestDto, eventToUpdate);
+        Event updatedEvent = eventService.save(eventToUpdate);
+
+        return ResponseEntity.ok(eventMapper.toResponseDto(updatedEvent));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id){
+        eventService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
