@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     // find , by , Username  lo interpreta JPA, no se puede poner cualquier nombre
     Optional<User> findByUsername (String username);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }
