@@ -6,18 +6,21 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class EventRequestDto {
-
-    @NotBlank(message="El nombre del evento no puede estar vacio")
+    @NotBlank(message = "El nombre del evento no puede estar vacío.")
     private String name;
 
-    @NotNull(message = "La fecha no puede ser nula")
-    @FutureOrPresent(message = "El evento no puede tener une fecha pasada")
+    @NotNull(message = "La fecha no puede ser nula.")
     private LocalDate date;
 
-    @NotBlank(message="La locacion del evento no puede estar vacia")
+    @NotBlank(message = "La ubicación no puede estar vacía.")
     private String location;
 
+    @NotNull(message = "La categoría es obligatoria.")
+    private Long categoryId;
+
+    private Set<Long> speakersIds;
 }

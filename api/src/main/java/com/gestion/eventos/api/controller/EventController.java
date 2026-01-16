@@ -13,7 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 @RestController
 @RequestMapping("/api/v1/events")
 @RequiredArgsConstructor
@@ -26,21 +28,22 @@ public class EventController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResponseEntity< List<EventResponseDto> > getAllEvents(){
-        List<Event> events = eventService.findAll();
-        List<EventResponseDto> eventsDTo = eventMapper.toEventResponseDtoList(events);
-        return ResponseEntity.ok(eventsDTo);
+    public ResponseEntity<Page<EventResponseDto>> getAllEvents(
+            @RequestParam(required = false) String name,
+            @PageableDefault(page = 0, size = 10, sort = "name") Pageable pageable
+
+    ){
+        Page<EventResponseDto> events = eventService.findAll(name, pageable);
+        return ResponseEntity.ok(events);
     }
 
     //@Valid para que se valide con las reglas declaradas en "EventRequestDto" con la dependencia jakarta.validation.constraints
     //@RequestBody para que se espere esa estrucuta del dato en el body de la peticion
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<EventResponseDto>  createEvent (@Valid @RequestBody EventRequestDto eventRequestDto){
-        Event event = eventMapper.toEntity(eventRequestDto);
-        Event savedEvent = eventService.save(event);
-
-        EventResponseDto responseDto = eventMapper.toResponseDto(savedEvent);
+    public ResponseEntity<EventResponseDto> createEvent(@Valid @RequestBody EventRequestDto requestDto){
+        Event eventSaved = eventService.save(requestDto);
+        EventResponseDto responseDto = eventMapper.toResponseDto(eventSaved);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -59,12 +62,11 @@ public class EventController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<EventResponseDto> updateEvent(@PathVariable Long id ,@Valid @RequestBody EventRequestDto requestDto){
-        Event eventToUpdate = eventService.findById(id);
-        eventMapper.updateEventFromDto(requestDto, eventToUpdate);
-        Event updatedEvent = eventService.save(eventToUpdate);
-
-        return ResponseEntity.ok(eventMapper.toResponseDto(updatedEvent));
+    public ResponseEntity<EventResponseDto> updateEvent( @PathVariable Long id,
+                                                         @Valid @RequestBody EventRequestDto requestDto
+    ){
+        Event updateEvent = eventService.update(id, requestDto);
+        return ResponseEntity.ok(eventMapper.toResponseDto(updateEvent));
     }
 
     @DeleteMapping("/{id}")
