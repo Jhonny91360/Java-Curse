@@ -7,6 +7,7 @@ import com.gestion.eventos.api.security.dto.RegisterDto;
 import com.gestion.eventos.api.mapper.UserMapper;
 import com.gestion.eventos.api.repository.UserRepository;
 import com.gestion.eventos.api.security.jwt.JwtGenerator;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody RegisterDto registerDto){
+    public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterDto registerDto){
         if(userRepository.existsByUsername(registerDto.getUsername())){
             return new ResponseEntity<>("Nombre de usuario, ya existe...", HttpStatus.BAD_REQUEST);
         }

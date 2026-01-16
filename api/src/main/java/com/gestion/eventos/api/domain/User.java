@@ -2,6 +2,8 @@ package com.gestion.eventos.api.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,4 +27,25 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id") // referencia a la otra tabla ( roles ) con su id
     )
     private Set<Role> roles= new HashSet<>();
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_attended_events",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Event> attendedEvents = new HashSet<>();
+
+    public void addAttendedEvent(Event event){
+        this.attendedEvents.add(event);
+        event.getAttendedUsers().add(this);
+    }
+
+    public void removeAttendedEvent(Event event){
+        this.attendedEvents.remove(event);
+        event.getAttendedUsers().remove(this);
+    }
 }

@@ -48,11 +48,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests( auth ->
                         auth   // para habilitar la ruta del login
                                 .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
                                // .requestMatchers(HttpMethod.GET, "/api/v1/events/**").permitAll()
                                 // Por ahora, CUALQUIER petición (anyRequest) debe estar autenticada.
                                 // Nadie entra si no está logueado.
                                 .anyRequest().authenticated()
-                );
+                )
+
+                        .headers(AbstractHttpConfigurer::disable);
 
                 // 3. Activamos la Autenticación Básica.
                 // Es el popup del navegador o el header "Authorization: Basic base64(user:pass)".
