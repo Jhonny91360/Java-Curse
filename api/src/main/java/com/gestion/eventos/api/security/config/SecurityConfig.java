@@ -16,6 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration // Indica que esta clase contiene configuraciones de Beans para Spring
 @RequiredArgsConstructor // Crea el constructor para inyectar userDetailsService automáticamente
@@ -35,6 +41,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // 1. Deshabilitamos CSRF (Cross-Site Request Forgery).
                 // Común en APIs REST que usan tokens o Basic Auth y no cookies/sesiones de navegador.
                 .csrf(AbstractHttpConfigurer::disable)
@@ -85,4 +92,28 @@ public class SecurityConfig {
         // Spring ya tiene una configuración por defecto, simplemente la exponemos como Bean.
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    // <<<< NUEVO MÉTODO: Bean para la configuración de CORS >>>>
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // En desarrollo, permitimos todos los orígenes.
+        // EN PRODUCCIÓN, CAMBIAR ESTO POR LOS DOMINIOS ESPECÍFICOS DE TU FRONTEND (ej. "https://tumiweb.com")
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200")); // O Arrays.asList("http://localhost:3000", "http://otrafuente.com")
+        // Métodos HTTP permitidos
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        // Encabezados HTTP permitidos (Authorization, Content-Type, etc.)
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        // Permite enviar credenciales (como cookies o encabezados de autorización)
+        configuration.setAllowCredentials(true);
+        // Tiempo máximo en segundos que la respuesta de una pre-solicitud (preflight) puede ser cacheada por el navegador
+        configuration.setMaxAge(3600L); // 1 hora
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Aplicar esta configuración CORS a todas las rutas de nuestra API
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
 }
