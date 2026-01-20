@@ -9,3 +9,11 @@ cors-presentation.html
 jpa-loading-strategies.html
 jsonignore-serialization.html
 spring-boot-testing-principles.html
+
+docker-compose-presentation.html
+docker-dockerfile-spring.html
+docker-multistage-build.html
+docker-quick-guide.html
+logback-spring-logging.html
+logging-estrategico.html
+openapi-jwt-config.html

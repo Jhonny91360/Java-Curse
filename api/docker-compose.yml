@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build: . # Esto le dice a Docker Compose que busque el Dockerfile en el directorio actual (.)
+    container_name: api-eventos-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${NEON_DB_URL} # Se debe crear en el .env
+      SPRING_DATASOURCE_USERNAME: ${NEON_DB_USER} # Se debe crear en el .env
+      SPRING_DATASOURCE_PASSWORD: ${NEON_DB_PASSWORD} # Se debe crear en el .env
+
+      JWT_SECRET: ${JWT_SECRET} # Se debe crear en el .env
+      JWT_EXPIRATION: ${JWT_EXPIRATION} # Se debe crear en el .env
+
+      SPRING_PROFILES_ACTIVE: dev # O 'prod' si es para simular producción local
